@@ -8,3 +8,5 @@ https://cloud.google.com/natural-language/docs/setup
 Google npm install --save @google-cloud/language
 
 AWS npm install aws-sdk
+
+Microsoft npm install --save @azure/ai-text-analytics@5.1.0-beta.1

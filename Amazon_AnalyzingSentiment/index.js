@@ -1,13 +1,13 @@
 exports.handler = async (event) => {
     try {
+        //Set up AWS and Comprehend
         let AWS = require("aws-sdk");
-
         let comprehend = new AWS.Comprehend();
 
+        //Gets the text from the AWS Lambda Test Event
         const params = {
             Text: event["text"]
         };
-
 
         //Detecting the dominant language of the text
         comprehend.detectDominantLanguage(params, function (err, result) {
@@ -23,41 +23,29 @@ exports.handler = async (event) => {
                 //Analyze the sentiment
                 comprehend.detectSentiment(sentimentParams, function (err, data) {
                     if (err) {
-                        /*callback(null, {
-                            statusCode: 400,
-                            headers: {
-                                "Access-Control-Allow-Origin": "*"
-                            },
-                            body: JSON.stringify(err)
-                        });*/
                         console.log("Error: " + err);
                     }
                     else {
-                        /*callback(null, {
+                        var myObj = {
+                            "api": "amazon_comprehend",
+                            "score": data.SentimentScore,
+                            "sentiment": data.SentimentScore,
+                            "sentence_text": event["text"],
+                        }
+                        console.log(myObj);
+
+                        const response = {
                             statusCode: 200,
-                            headers: {
-                                "Access-Control-Allow-Origin": "*"
-                            },
-                            body: JSON.stringify(data)
-                        });*/
-                        console.log(JSON.stringify(data));
-                        console.log("Sentiment: " + data.Sentiment);
-                        console.log("Sentiment Score: " + data.SentimentScore);
+                            body: JSON.stringify('Successful Sentiment Analysis'),
+                        };
+                        return response;
                     }
                 })
             }
             else {
                 console.log(err);
             }
-
-            const response = {
-                statusCode: 200,
-                body: JSON.stringify('Hello from Lambda!'),
-            };
-            return response;
         });
-
-
 
     }
     catch (error) {

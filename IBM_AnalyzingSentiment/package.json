@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ibm-watson": "^5.7.1"
+    "ibm-watson": "^5.7.1",
+    "node-fetch": "^2.6.1"
   }
 }
